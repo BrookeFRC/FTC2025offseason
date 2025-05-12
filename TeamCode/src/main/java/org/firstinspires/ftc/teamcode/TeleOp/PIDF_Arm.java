@@ -10,30 +10,54 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @Config
 @TeleOp
 public class PIDF_Arm extends OpMode {
-    private PIDController controller;
-    public  static double p = 0, i = 0, d = 0, f = 0;
-    public static int target = 50;
-    private DcMotor port0;
+    private PIDController slideController;
+    public static double slideP = 0, slideI = 0, slideD = 0, slideF = 0;
+    public static int slidetarget = 50;
+    private DcMotor slide;
+
+    private PIDController armController;
+    public static double armP = 0, armI = 0, armD = 0, armF = 0;
+    public static int armTarget = 0;
+    private DcMotor arm;
+
     @Override
     public void init() {
-        controller = new PIDController(p,i,d);
+        slideController = new PIDController(slideP,slideI,slideD);
+        armController = new PIDController(armP,armI,armD);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        port0 = hardwareMap.get(DcMotor.class, "port0");
+        slide = hardwareMap.get(DcMotor.class, "slide");
+        arm   = hardwareMap.get(DcMotor.class, "arm");
 
     }
 
     @Override
     public void loop() {
-        controller.setPID(p, i, d);
-        int armPos = port0.getCurrentPosition();
-        double pid = controller.calculate(armPos, target);
+        slideController.setPID(slideP, slideI, slideD);
+        int slidePos = slide.getCurrentPosition();
+        double slidePid = slideController.calculate(slidePos, slidetarget);
         double ticks_in_degree = (double) 252 /360;
-        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
-        double power = pid + ff;
-        port0.setPower(power);
-        telemetry.addData("power", power);
-        telemetry.addData("pos ", armPos);
-        telemetry.addData("target ", target);
+        double slideFF = Math.cos(Math.toRadians(slidetarget / ticks_in_degree)) * slideF;
+        double slidepower = slidePid + slideFF;
+        slide.setPower(slidepower);
+        telemetry.addData("slide power", slidepower);
+        telemetry.addData("slide pos", slidePos);
+        telemetry.addData("slide target ", slidetarget);
+
+
+        armController.setPID(armP, armI, armD);
+        int armPos =  arm.getCurrentPosition();
+        double armPid = armController.calculate(armPos, armTarget);
+        double ticks_in_degree_arm = 2800/360;
+        double armFF = Math.cos(Math.toRadians(armTarget / ticks_in_degree_arm)) * armF;
+        double armPower = armPid +armFF;
+        arm.setPower(armPower);
+        telemetry.addData("arm power", armPower);
+        telemetry.addData("slide pos", armPos);
+        telemetry.addData("slide target ", armTarget);
         telemetry.update();
+
+
+
+
     }
 }
