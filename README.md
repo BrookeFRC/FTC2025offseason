@@ -40,3 +40,5 @@ if you found this by accident, please do not out me to friends/family/school
 - If you break something, you will fix it by the next class period or time we meet, i will publicly execute you if you leave it broken.
 - avoid pushing code to master the friday before comp.
 - test code with the robot before THINKING about making a commit.
+
+this will be archived when the new SDK is released
