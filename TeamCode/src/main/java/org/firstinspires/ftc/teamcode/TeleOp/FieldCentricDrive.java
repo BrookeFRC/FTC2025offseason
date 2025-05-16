@@ -61,6 +61,7 @@ public class FieldCentricDrive extends OpMode {
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
+
     }
 
     @Override
@@ -74,9 +75,12 @@ public class FieldCentricDrive extends OpMode {
         // This button choice was made so that it is hard to hit on accident,
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
-        if (gamepad1.options) {
-            imu.resetYaw();
-        }
+        if (gamepad1.options) {imu.resetYaw();}
+        else if (gamepad1.a) {sTarget = 5400;}
+        else if (gamepad1.b) {sTarget = -4100;}
+        else if (gamepad1.x) {aTarget = 840;}
+        else if (gamepad1.y) {aTarget = -550;}
+
 
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
