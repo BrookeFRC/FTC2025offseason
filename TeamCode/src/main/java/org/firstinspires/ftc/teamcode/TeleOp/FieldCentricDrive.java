@@ -116,6 +116,8 @@ public class FieldCentricDrive extends OpMode {
         // TODO add inputs for slide in/out
         // TODO add inputs for claw (probably enums) (open and closed)
         // TODO add inputs for arm (down, up, middle)
+        // TODO add webcam
+
 
 
 
